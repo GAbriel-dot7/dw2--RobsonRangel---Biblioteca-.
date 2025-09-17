@@ -1,14 +1,477 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca</title>
+    <title>Biblioteca Escolar</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Bem-vindo à Biblioteca</h1>
+    <!-- Header Fixo -->
+    <header class="header-main" id="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <h1 class="site-title">📚 Biblioteca Escolar</h1>
+            </div>
+            <div class="search-section">
+                <form class="search-form" role="search">
+                    <input 
+                        type="search" 
+                        id="search-books" 
+                        class="search-input" 
+                        placeholder="Buscar livros, autores ou ISBN..."
+                        aria-label="Buscar livros por título, autor ou ISBN"
+                        tabindex="1"
+                    >
+                    <button 
+                        type="submit" 
+                        class="search-button"
+                        aria-label="Realizar busca"
+                        tabindex="2"
+                    >
+                        🔍
+                    </button>
+                </form>
+            </div>
+            <div class="actions-section">
+                <button 
+                    class="btn btn-primary" 
+                    id="btn-new-book"
+                    aria-label="Adicionar novo livro"
+                    tabindex="3"
+                >
+                    Novo Livro
+                </button>
+                <button 
+                    class="btn btn-secondary" 
+                    id="btn-loan-return"
+                    aria-label="Gerenciar empréstimos e devoluções"
+                    tabindex="4"
+                >
+                    Empréstimo/Devolução
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Sidebar com Filtros -->
+        <aside class="sidebar-filters" id="filters-sidebar">
+            <div class="filters-header">
+                <h2 class="filters-title">Filtros</h2>
+                <button 
+                    class="btn-clear-filters"
+                    id="clear-filters"
+                    aria-label="Limpar todos os filtros"
+                    tabindex="5"
+                >
+                    Limpar
+                </button>
+            </div>
+
+            <div class="filter-group">
+                <h3 class="filter-label">Gênero</h3>
+                <div class="filter-options" role="group" aria-labelledby="genre-filter">
+                    <label class="filter-checkbox">
+                        <input type="checkbox" value="ficcao" tabindex="6">
+                        <span class="checkmark"></span>
+                        Ficção
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" value="nao-ficcao" tabindex="7">
+                        <span class="checkmark"></span>
+                        Não-ficção
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" value="romance" tabindex="8">
+                        <span class="checkmark"></span>
+                        Romance
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" value="aventura" tabindex="9">
+                        <span class="checkmark"></span>
+                        Aventura
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" value="ciencia" tabindex="10">
+                        <span class="checkmark"></span>
+                        Ciência
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3 class="filter-label">Ano de Publicação</h3>
+                <div class="filter-range">
+                    <input 
+                        type="number" 
+                        id="year-min" 
+                        class="year-input"
+                        placeholder="De"
+                        min="1800"
+                        max="2025"
+                        aria-label="Ano mínimo de publicação"
+                        tabindex="11"
+                    >
+                    <span class="range-separator">-</span>
+                    <input 
+                        type="number" 
+                        id="year-max" 
+                        class="year-input"
+                        placeholder="Até"
+                        min="1800"
+                        max="2025"
+                        aria-label="Ano máximo de publicação"
+                        tabindex="12"
+                    >
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3 class="filter-label">Status</h3>
+                <div class="filter-options" role="group" aria-labelledby="status-filter">
+                    <label class="filter-radio">
+                        <input type="radio" name="status" value="todos" checked tabindex="13">
+                        <span class="radiomark"></span>
+                        Todos
+                    </label>
+                    <label class="filter-radio">
+                        <input type="radio" name="status" value="disponivel" tabindex="14">
+                        <span class="radiomark"></span>
+                        Disponível
+                    </label>
+                    <label class="filter-radio">
+                        <input type="radio" name="status" value="emprestado" tabindex="15">
+                        <span class="radiomark"></span>
+                        Emprestado
+                    </label>
+                    <label class="filter-radio">
+                        <input type="radio" name="status" value="manutencao" tabindex="16">
+                        <span class="radiomark"></span>
+                        Em Manutenção
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Área Principal - Lista de Livros -->
+        <main class="books-main" id="books-container">
+            <div class="books-header">
+                <h2 class="books-title">Acervo da Biblioteca</h2>
+                <div class="books-count" id="books-count" aria-live="polite">
+                    <span id="total-books">0</span> livros encontrados
+                </div>
+            </div>
+
+            <div class="books-grid" id="books-list" role="list">
+                <!-- Exemplo de Card de Livro -->
+                <article class="book-card" role="listitem" tabindex="17">
+                    <div class="book-cover">
+                        <img 
+                            src="https://via.placeholder.com/120x180?text=Livro" 
+                            alt="Capa do livro O Pequeno Príncipe"
+                            class="cover-image"
+                        >
+                        <div class="book-status status-available">Disponível</div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">O Pequeno Príncipe</h3>
+                        <p class="book-author">Antoine de Saint-Exupéry</p>
+                        <p class="book-year">1943</p>
+                        <p class="book-genre">Ficção</p>
+                        <div class="book-actions">
+                            <button 
+                                class="btn btn-sm btn-primary"
+                                aria-label="Ver detalhes do livro O Pequeno Príncipe"
+                                tabindex="18"
+                            >
+                                Detalhes
+                            </button>
+                            <button 
+                                class="btn btn-sm btn-secondary"
+                                aria-label="Emprestar livro O Pequeno Príncipe"
+                                tabindex="19"
+                            >
+                                Emprestar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mais cards serão gerados dinamicamente via JavaScript -->
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loading-state" aria-hidden="true">
+                <div class="spinner"></div>
+                <p>Carregando livros...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" aria-hidden="true">
+                <div class="empty-icon">📚</div>
+                <h3>Nenhum livro encontrado</h3>
+                <p>Tente ajustar os filtros ou adicionar novos livros ao acervo.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Novo Livro -->
+    <div class="modal" id="modal-new-book" role="dialog" aria-labelledby="modal-new-book-title" aria-hidden="true">
+        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-new-book-title">Adicionar Novo Livro</h2>
+                <button 
+                    class="modal-close" 
+                    aria-label="Fechar modal"
+                    tabindex="20"
+                >
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="book-form" id="new-book-form">
+                    <div class="form-group">
+                        <label for="book-title-input" class="form-label">Título *</label>
+                        <input 
+                            type="text" 
+                            id="book-title-input" 
+                            class="form-input"
+                            required
+                            aria-required="true"
+                            tabindex="21"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="book-author-input" class="form-label">Autor *</label>
+                        <input 
+                            type="text" 
+                            id="book-author-input" 
+                            class="form-input"
+                            required
+                            aria-required="true"
+                            tabindex="22"
+                        >
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="book-year-input" class="form-label">Ano</label>
+                            <input 
+                                type="number" 
+                                id="book-year-input" 
+                                class="form-input"
+                                min="1800"
+                                max="2025"
+                                tabindex="23"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="book-genre-select" class="form-label">Gênero</label>
+                            <select id="book-genre-select" class="form-select" tabindex="24">
+                                <option value="">Selecione...</option>
+                                <option value="ficcao">Ficção</option>
+                                <option value="nao-ficcao">Não-ficção</option>
+                                <option value="romance">Romance</option>
+                                <option value="aventura">Aventura</option>
+                                <option value="ciencia">Ciência</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-isbn-input" class="form-label">ISBN</label>
+                        <input 
+                            type="text" 
+                            id="book-isbn-input" 
+                            class="form-input"
+                            tabindex="25"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="book-cover-input" class="form-label">URL da Capa</label>
+                        <input 
+                            type="url" 
+                            id="book-cover-input" 
+                            class="form-input"
+                            tabindex="26"
+                        >
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary"
+                    id="cancel-new-book"
+                    tabindex="27"
+                >
+                    Cancelar
+                </button>
+                <button 
+                    type="submit" 
+                    form="new-book-form"
+                    class="btn btn-primary"
+                    tabindex="28"
+                >
+                    Adicionar Livro
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Empréstimo/Devolução -->
+    <div class="modal" id="modal-loan-return" role="dialog" aria-labelledby="modal-loan-return-title" aria-hidden="true">
+        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-loan-return-title">Empréstimo e Devolução</h2>
+                <button 
+                    class="modal-close" 
+                    aria-label="Fechar modal"
+                    tabindex="29"
+                >
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs-container">
+                    <div class="tabs-header" role="tablist">
+                        <button 
+                            class="tab-button active" 
+                            role="tab"
+                            aria-controls="loan-panel"
+                            aria-selected="true"
+                            id="loan-tab"
+                            tabindex="30"
+                        >
+                            Empréstimo
+                        </button>
+                        <button 
+                            class="tab-button" 
+                            role="tab"
+                            aria-controls="return-panel"
+                            aria-selected="false"
+                            id="return-tab"
+                            tabindex="31"
+                        >
+                            Devolução
+                        </button>
+                    </div>
+
+                    <!-- Painel de Empréstimo -->
+                    <div 
+                        class="tab-panel active" 
+                        role="tabpanel"
+                        aria-labelledby="loan-tab"
+                        id="loan-panel"
+                    >
+                        <form class="loan-form" id="loan-form">
+                            <div class="form-group">
+                                <label for="student-name" class="form-label">Nome do Aluno *</label>
+                                <input 
+                                    type="text" 
+                                    id="student-name" 
+                                    class="form-input"
+                                    required
+                                    aria-required="true"
+                                    tabindex="32"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="student-class" class="form-label">Turma</label>
+                                <input 
+                                    type="text" 
+                                    id="student-class" 
+                                    class="form-input"
+                                    tabindex="33"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="loan-book-search" class="form-label">Buscar Livro *</label>
+                                <input 
+                                    type="search" 
+                                    id="loan-book-search" 
+                                    class="form-input"
+                                    placeholder="Digite o título ou ISBN..."
+                                    required
+                                    aria-required="true"
+                                    tabindex="34"
+                                >
+                                <div class="search-results" id="loan-search-results"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="loan-date" class="form-label">Data do Empréstimo</label>
+                                    <input 
+                                        type="date" 
+                                        id="loan-date" 
+                                        class="form-input"
+                                        tabindex="35"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="return-date" class="form-label">Data de Devolução</label>
+                                    <input 
+                                        type="date" 
+                                        id="return-date" 
+                                        class="form-input"
+                                        tabindex="36"
+                                    >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Painel de Devolução -->
+                    <div 
+                        class="tab-panel" 
+                        role="tabpanel"
+                        aria-labelledby="return-tab"
+                        id="return-panel"
+                    >
+                        <form class="return-form" id="return-form">
+                            <div class="form-group">
+                                <label for="return-book-search" class="form-label">Buscar Empréstimo *</label>
+                                <input 
+                                    type="search" 
+                                    id="return-book-search" 
+                                    class="form-input"
+                                    placeholder="Digite o nome do aluno ou título do livro..."
+                                    required
+                                    aria-required="true"
+                                    tabindex="37"
+                                >
+                                <div class="search-results" id="return-search-results"></div>
+                            </div>
+                            <div class="active-loans" id="active-loans">
+                                <!-- Lista de empréstimos ativos será carregada aqui -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary"
+                    id="cancel-loan-return"
+                    tabindex="38"
+                >
+                    Cancelar
+                </button>
+                <button 
+                    type="submit" 
+                    class="btn btn-primary"
+                    id="confirm-loan-return"
+                    tabindex="39"
+                >
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="scripts.js"></script>
 </body>
 </html>
