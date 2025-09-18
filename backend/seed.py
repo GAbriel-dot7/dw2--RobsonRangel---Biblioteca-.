@@ -11,6 +11,19 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from database import SessionLocal, init_db
 from models import Livro, StatusLivro
 
+# seed.py - Script para popular banco de dados com dados iniciais
+
+import sys
+import os
+from datetime import datetime, date, timedelta
+from sqlalchemy.orm import Session
+
+# Adicionar o diretório atual ao path para importar módulos locais
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from database import SessionLocal, init_db
+from models import Livro, StatusLivro, validar_titulo_unico, validar_isbn_unico
+
 def criar_dados_completos():
     """Criar conjunto completo de dados para teste e demonstração"""
     
@@ -28,69 +41,56 @@ def criar_dados_completos():
         
         print("📚 Criando dados completos para a biblioteca...")
         
-        # Lista abrangente de livros
+        # Lista abrangente de livros para biblioteca escolar (20 livros)
         livros_seed = [
             # Literatura Clássica Brasileira
             {
                 "titulo": "Dom Casmurro",
                 "autor": "Machado de Assis",
                 "ano": 1899,
-                "genero": "romance",
+                "genero": "Romance",
                 "isbn": "978-8525406569",
                 "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "João Silva Santos",
-                "turma_usuario": "3º A",
-                "data_emprestimo": date.today() - timedelta(days=10),
-                "data_devolucao_prevista": date.today() + timedelta(days=5)
+                "data_emprestimo": date.today() - timedelta(days=10)
             },
             {
                 "titulo": "O Cortiço",
                 "autor": "Aluísio Azevedo",
                 "ano": 1890,
-                "genero": "romance",
+                "genero": "Romance",
                 "isbn": "978-8525406576",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Quincas Borba",
-                "autor": "Machado de Assis",
-                "ano": 1891,
-                "genero": "romance",
-                "isbn": "978-8525406583",
-                "status": StatusLivro.MANUTENCAO
-            },
-            {
-                "titulo": "O Guarani",
-                "autor": "José de Alencar",
-                "ano": 1857,
-                "genero": "romance",
-                "isbn": "978-8525406590",
                 "status": StatusLivro.DISPONIVEL
             },
             {
                 "titulo": "Iracema",
                 "autor": "José de Alencar",
                 "ano": 1865,
-                "genero": "romance",
+                "genero": "Romance",
                 "isbn": "978-8525406606",
                 "status": StatusLivro.DISPONIVEL
             },
+            {
+                "titulo": "O Ateneu",
+                "autor": "Raul Pompéia",
+                "ano": 1888,
+                "genero": "Romance",
+                "status": StatusLivro.DISPONIVEL
+            },
             
-            # Literatura Internacional
+            # Literatura Internacional Clássica
             {
                 "titulo": "O Pequeno Príncipe",
                 "autor": "Antoine de Saint-Exupéry",
                 "ano": 1943,
-                "genero": "ficcao",
+                "genero": "Ficção",
                 "isbn": "978-8520925065",
-                "capa_url": "https://images-na.ssl-images-amazon.com/images/I/71OZY035QKL.jpg",
                 "status": StatusLivro.DISPONIVEL
             },
             {
                 "titulo": "1984",
                 "autor": "George Orwell",
                 "ano": 1949,
-                "genero": "ficcao",
+                "genero": "Ficção Científica",
                 "isbn": "978-8535914849",
                 "status": StatusLivro.DISPONIVEL
             },
@@ -98,67 +98,62 @@ def criar_dados_completos():
                 "titulo": "A Revolução dos Bichos",
                 "autor": "George Orwell",
                 "ano": 1945,
-                "genero": "ficcao",
+                "genero": "Fábula",
                 "isbn": "978-8535914856",
                 "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "Maria Santos Costa",
-                "turma_usuario": "2º B",
-                "data_emprestimo": date.today() - timedelta(days=20),
-                "data_devolucao_prevista": date.today() - timedelta(days=5)  # Em atraso
+                "data_emprestimo": date.today() - timedelta(days=20)
             },
+            {
+                "titulo": "Dom Quixote",
+                "autor": "Miguel de Cervantes",
+                "ano": 1605,
+                "genero": "Romance",
+                "isbn": "978-8525432124",
+                "status": StatusLivro.DISPONIVEL
+            },
+            
+            # Fantasia e Aventura
             {
                 "titulo": "O Hobbit",
                 "autor": "J.R.R. Tolkien",
                 "ano": 1937,
-                "genero": "aventura",
+                "genero": "Fantasia",
                 "isbn": "978-8595084759",
                 "status": StatusLivro.DISPONIVEL
             },
             {
-                "titulo": "O Senhor dos Anéis: A Sociedade do Anel",
-                "autor": "J.R.R. Tolkien",
-                "ano": 1954,
-                "genero": "aventura",
-                "isbn": "978-8533613379",
+                "titulo": "Harry Potter e a Pedra Filosofal",
+                "autor": "J.K. Rowling",
+                "ano": 1997,
+                "genero": "Fantasia",
+                "isbn": "978-8532512062",
                 "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "Pedro Costa Silva",
-                "turma_usuario": "1º C",
-                "data_emprestimo": date.today() - timedelta(days=5),
-                "data_devolucao_prevista": date.today() + timedelta(days=10)
+                "data_emprestimo": date.today() - timedelta(days=25)
+            },
+            {
+                "titulo": "As Crônicas de Nárnia: O Leão, a Feiticeira e o Guarda-Roupa",
+                "autor": "C.S. Lewis",
+                "ano": 1950,
+                "genero": "Fantasia",
+                "isbn": "978-8578274550",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Percy Jackson e o Ladrão de Raios",
+                "autor": "Rick Riordan",
+                "ano": 2005,
+                "genero": "Aventura",
+                "isbn": "978-8580575237",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=5)
             },
             
-            # Ficção Científica e Fantasia
-            {
-                "titulo": "Duna",
-                "autor": "Frank Herbert",
-                "ano": 1965,
-                "genero": "ficcao",
-                "isbn": "978-8576573344",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Fundação",
-                "autor": "Isaac Asimov",
-                "ano": 1951,
-                "genero": "ficcao",
-                "isbn": "978-8576573887",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Fahrenheit 451",
-                "autor": "Ray Bradbury",
-                "ano": 1953,
-                "genero": "ficcao",
-                "isbn": "978-8525052120",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Não-ficção e Ciência
+            # Ciência e Não-ficção
             {
                 "titulo": "Uma Breve História do Tempo",
                 "autor": "Stephen Hawking",
                 "ano": 1988,
-                "genero": "ciencia",
+                "genero": "Ciência",
                 "isbn": "978-8580573466",
                 "status": StatusLivro.DISPONIVEL
             },
@@ -166,193 +161,99 @@ def criar_dados_completos():
                 "titulo": "Sapiens: Uma Breve História da Humanidade",
                 "autor": "Yuval Noah Harari",
                 "ano": 2011,
-                "genero": "nao-ficcao",
+                "genero": "História",
                 "isbn": "978-8525432186",
                 "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "Ana Beatriz Oliveira",
-                "turma_usuario": "3º C",
-                "data_emprestimo": date.today() - timedelta(days=3),
-                "data_devolucao_prevista": date.today() + timedelta(days=12)
+                "data_emprestimo": date.today() - timedelta(days=3)
             },
             {
-                "titulo": "Homo Deus: Uma Breve História do Amanhã",
-                "autor": "Yuval Noah Harari",
-                "ano": 2015,
-                "genero": "nao-ficcao",
-                "isbn": "978-8535926438",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "O Gene Egoísta",
-                "autor": "Richard Dawkins",
-                "ano": 1976,
-                "genero": "ciencia",
-                "isbn": "978-8535925913",
+                "titulo": "O Mundo de Sofia",
+                "autor": "Jostein Gaarder",
+                "ano": 1991,
+                "genero": "Filosofia",
+                "isbn": "978-8535906770",
                 "status": StatusLivro.DISPONIVEL
             },
             
-            # Mistério e Suspense
+            # Literatura Contemporânea
             {
-                "titulo": "O Código Da Vinci",
-                "autor": "Dan Brown",
-                "ano": 2003,
-                "genero": "aventura",
-                "isbn": "978-8575421376",
+                "titulo": "O Alquimista",
+                "autor": "Paulo Coelho",
+                "ano": 1988,
+                "genero": "Ficção",
+                "isbn": "978-8573025378",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=7)
+            },
+            {
+                "titulo": "Cem Anos de Solidão",
+                "autor": "Gabriel García Márquez",
+                "ano": 1967,
+                "genero": "Realismo Mágico",
+                "isbn": "978-8501061942",
                 "status": StatusLivro.DISPONIVEL
             },
             {
-                "titulo": "Anjos e Demônios",
-                "autor": "Dan Brown",
-                "ano": 2000,
-                "genero": "aventura",
-                "isbn": "978-8575421383",
+                "titulo": "Capitães da Areia",
+                "autor": "Jorge Amado",
+                "ano": 1937,
+                "genero": "Romance",
+                "isbn": "978-8535918632",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=14)
+            },
+            {
+                "titulo": "A Hora da Estrela",
+                "autor": "Clarice Lispector",
+                "ano": 1977,
+                "genero": "Romance",
+                "isbn": "978-8520925959",
                 "status": StatusLivro.DISPONIVEL
             },
             {
                 "titulo": "O Nome da Rosa",
                 "autor": "Umberto Eco",
                 "ano": 1980,
-                "genero": "ficcao",
+                "genero": "Mistério",
                 "isbn": "978-8501061935",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Literatura Contemporânea
-            {
-                "titulo": "Cem Anos de Solidão",
-                "autor": "Gabriel García Márquez",
-                "ano": 1967,
-                "genero": "ficcao",
-                "isbn": "978-8501061942",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "O Alquimista",
-                "autor": "Paulo Coelho",
-                "ano": 1988,
-                "genero": "ficcao",
-                "isbn": "978-8573025378",
-                "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "Lucas Ferreira Lima",
-                "turma_usuario": "2º A",
-                "data_emprestimo": date.today() - timedelta(days=7),
-                "data_devolucao_prevista": date.today() + timedelta(days=8)
-            },
-            {
-                "titulo": "Veronika Decide Morrer",
-                "autor": "Paulo Coelho",
-                "ano": 1998,
-                "genero": "ficcao",
-                "isbn": "978-8573025385",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Biografia e História
-            {
-                "titulo": "Steve Jobs",
-                "autor": "Walter Isaacson",
-                "ano": 2011,
-                "genero": "nao-ficcao",
-                "isbn": "978-8535918244",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Einstein: Sua Vida, Seu Universo",
-                "autor": "Walter Isaacson",
-                "ano": 2007,
-                "genero": "nao-ficcao",
-                "isbn": "978-8535912279",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Literatura Jovem
-            {
-                "titulo": "Harry Potter e a Pedra Filosofal",
-                "autor": "J.K. Rowling",
-                "ano": 1997,
-                "genero": "aventura",
-                "isbn": "978-8532512062",
-                "status": StatusLivro.EMPRESTADO,
-                "nome_usuario": "Beatriz Costa Santos",
-                "turma_usuario": "1º B",
-                "data_emprestimo": date.today() - timedelta(days=25),
-                "data_devolucao_prevista": date.today() - timedelta(days=10)  # Em atraso
-            },
-            {
-                "titulo": "Harry Potter e a Câmara Secreta",
-                "autor": "J.K. Rowling",
-                "ano": 1998,
-                "genero": "aventura",
-                "isbn": "978-8532512079",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Percy Jackson e o Ladrão de Raios",
-                "autor": "Rick Riordan",
-                "ano": 2005,
-                "genero": "aventura",
-                "isbn": "978-8580575237",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Autoajuda e Desenvolvimento
-            {
-                "titulo": "Como Fazer Amigos e Influenciar Pessoas",
-                "autor": "Dale Carnegie",
-                "ano": 1936,
-                "genero": "nao-ficcao",
-                "isbn": "978-8504014570",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "O Poder do Hábito",
-                "autor": "Charles Duhigg",
-                "ano": 2012,
-                "genero": "nao-ficcao",
-                "isbn": "978-8565765169",
-                "status": StatusLivro.DISPONIVEL
-            },
-            
-            # Quadrinhos e Graphic Novels
-            {
-                "titulo": "Watchmen",
-                "autor": "Alan Moore",
-                "ano": 1986,
-                "genero": "ficcao",
-                "isbn": "978-8535909845",
-                "status": StatusLivro.DISPONIVEL
-            },
-            {
-                "titulo": "Persépolis",
-                "autor": "Marjane Satrapi",
-                "ano": 2000,
-                "genero": "nao-ficcao",
-                "isbn": "978-8535909852",
                 "status": StatusLivro.DISPONIVEL
             }
         ]
         
-        # Inserir livros no banco
+        # Inserir livros no banco com validações
         livros_criados = 0
+        livros_ignorados = 0
+        
         for livro_data in livros_seed:
             try:
+                # Verificar se título já existe
+                if not validar_titulo_unico(db, livro_data["titulo"]):
+                    print(f"⚠️ Livro '{livro_data['titulo']}' já existe - ignorando")
+                    livros_ignorados += 1
+                    continue
+                
+                # Verificar ISBN se fornecido
+                if livro_data.get("isbn") and not validar_isbn_unico(db, livro_data["isbn"]):
+                    print(f"⚠️ ISBN '{livro_data['isbn']}' já existe - ignorando")
+                    livros_ignorados += 1
+                    continue
+                
                 livro = Livro(
                     titulo=livro_data["titulo"],
                     autor=livro_data["autor"],
                     ano=livro_data["ano"],
                     genero=livro_data["genero"],
                     isbn=livro_data.get("isbn"),
-                    capa_url=livro_data.get("capa_url"),
                     status=livro_data["status"],
-                    nome_usuario=livro_data.get("nome_usuario"),
-                    turma_usuario=livro_data.get("turma_usuario"),
-                    data_emprestimo=livro_data.get("data_emprestimo"),
-                    data_devolucao_prevista=livro_data.get("data_devolucao_prevista"),
-                    data_cadastro=datetime.now()
+                    data_emprestimo=livro_data.get("data_emprestimo")
                 )
                 
                 db.add(livro)
                 livros_criados += 1
+                
+                # Status visual
+                status_icon = "📚" if livro_data["status"] == StatusLivro.DISPONIVEL else "📖"
+                print(f"✅ {status_icon} {livro_data['titulo']} - {livro_data['autor']} ({livro_data['ano']})")
                 
             except Exception as e:
                 print(f"❌ Erro ao criar livro '{livro_data['titulo']}': {e}")
@@ -360,24 +261,21 @@ def criar_dados_completos():
         # Commit das alterações
         db.commit()
         
-        print(f"✅ {livros_criados} livros criados com sucesso!")
+        print(f"\n🎉 {livros_criados} livros criados com sucesso!")
+        if livros_ignorados > 0:
+            print(f"⚠️ {livros_ignorados} livros ignorados (já existem)")
         
-        # Mostrar estatísticas
+        # Mostrar estatísticas finais
         print("\n📊 Estatísticas do acervo:")
-        print(f"   📚 Total: {db.query(Livro).count()}")
-        print(f"   ✅ Disponíveis: {db.query(Livro).filter(Livro.status == StatusLivro.DISPONIVEL).count()}")
-        print(f"   📖 Emprestados: {db.query(Livro).filter(Livro.status == StatusLivro.EMPRESTADO).count()}")
-        print(f"   🔧 Em manutenção: {db.query(Livro).filter(Livro.status == StatusLivro.MANUTENCAO).count()}")
+        total = db.query(Livro).count()
+        disponivel = db.query(Livro).filter(Livro.status == StatusLivro.DISPONIVEL).count()
+        emprestado = db.query(Livro).filter(Livro.status == StatusLivro.EMPRESTADO).count()
         
-        # Mostrar livros em atraso
-        from sqlalchemy import and_
-        atrasos = db.query(Livro).filter(
-            and_(
-                Livro.status == StatusLivro.EMPRESTADO,
-                Livro.data_devolucao_prevista < date.today()
-            )
-        ).count()
-        print(f"   ⚠️ Em atraso: {atrasos}")
+        print(f"   � Total: {total}")
+        print(f"   ✅ Disponíveis: {disponivel} ({disponivel/total*100:.1f}%)" if total > 0 else "   ✅ Disponíveis: 0")
+        print(f"   📖 Emprestados: {emprestado} ({emprestado/total*100:.1f}%)" if total > 0 else "   📖 Emprestados: 0")
+        
+        print("\n✨ Seed concluído!")
         
     except Exception as e:
         db.rollback()
@@ -421,25 +319,12 @@ def mostrar_estatisticas():
         total = db.query(Livro).count()
         disponivel = db.query(Livro).filter(Livro.status == StatusLivro.DISPONIVEL).count()
         emprestado = db.query(Livro).filter(Livro.status == StatusLivro.EMPRESTADO).count()
-        manutencao = db.query(Livro).filter(Livro.status == StatusLivro.MANUTENCAO).count()
         
         print("📊 ESTATÍSTICAS DA BIBLIOTECA")
         print("=" * 40)
         print(f"📚 Total de livros:     {total}")
         print(f"✅ Disponíveis:         {disponivel} ({disponivel/total*100:.1f}%)" if total > 0 else "✅ Disponíveis:         0")
         print(f"📖 Emprestados:         {emprestado} ({emprestado/total*100:.1f}%)" if total > 0 else "📖 Emprestados:         0")
-        print(f"🔧 Em manutenção:       {manutencao} ({manutencao/total*100:.1f}%)" if total > 0 else "🔧 Em manutenção:       0")
-        
-        # Livros em atraso
-        if emprestado > 0:
-            from sqlalchemy import and_
-            atrasos = db.query(Livro).filter(
-                and_(
-                    Livro.status == StatusLivro.EMPRESTADO,
-                    Livro.data_devolucao_prevista < date.today()
-                )
-            ).count()
-            print(f"⚠️ Em atraso:           {atrasos}")
         
         # Top gêneros
         from sqlalchemy import func
