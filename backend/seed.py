@@ -41,7 +41,7 @@ def criar_dados_completos():
         
         print("📚 Criando dados completos para a biblioteca...")
         
-        # Lista abrangente de livros para biblioteca escolar (20 livros)
+        # Lista abrangente de livros para biblioteca escolar (35 livros total)
         livros_seed = [
             # Literatura Clássica Brasileira
             {
@@ -74,6 +74,31 @@ def criar_dados_completos():
                 "autor": "Raul Pompéia",
                 "ano": 1888,
                 "genero": "Romance",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Senhora",
+                "autor": "José de Alencar",
+                "ano": 1875,
+                "genero": "Romance",
+                "isbn": "978-8520923580",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=6)
+            },
+            {
+                "titulo": "O Guarani",
+                "autor": "José de Alencar",
+                "ano": 1857,
+                "genero": "Romance",
+                "isbn": "978-8525406590",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Memórias Póstumas de Brás Cubas",
+                "autor": "Machado de Assis",
+                "ano": 1881,
+                "genero": "Romance",
+                "isbn": "978-8520923597",
                 "status": StatusLivro.DISPONIVEL
             },
             
@@ -111,6 +136,31 @@ def criar_dados_completos():
                 "isbn": "978-8525432124",
                 "status": StatusLivro.DISPONIVEL
             },
+            {
+                "titulo": "O Conde de Monte Cristo",
+                "autor": "Alexandre Dumas",
+                "ano": 1844,
+                "genero": "Aventura",
+                "isbn": "978-8520923603",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=4)
+            },
+            {
+                "titulo": "Os Três Mosqueteiros",
+                "autor": "Alexandre Dumas",
+                "ano": 1844,
+                "genero": "Aventura",
+                "isbn": "978-8520923610",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Orgulho e Preconceito",
+                "autor": "Jane Austen",
+                "ano": 1813,
+                "genero": "Romance",
+                "isbn": "978-8535926445",
+                "status": StatusLivro.DISPONIVEL
+            },
             
             # Fantasia e Aventura
             {
@@ -131,6 +181,23 @@ def criar_dados_completos():
                 "data_emprestimo": date.today() - timedelta(days=25)
             },
             {
+                "titulo": "Harry Potter e a Câmara Secreta",
+                "autor": "J.K. Rowling",
+                "ano": 1998,
+                "genero": "Fantasia",
+                "isbn": "978-8532512079",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Harry Potter e o Prisioneiro de Azkaban",
+                "autor": "J.K. Rowling",
+                "ano": 1999,
+                "genero": "Fantasia",
+                "isbn": "978-8532512086",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=12)
+            },
+            {
                 "titulo": "As Crônicas de Nárnia: O Leão, a Feiticeira e o Guarda-Roupa",
                 "autor": "C.S. Lewis",
                 "ano": 1950,
@@ -146,6 +213,23 @@ def criar_dados_completos():
                 "isbn": "978-8580575237",
                 "status": StatusLivro.EMPRESTADO,
                 "data_emprestimo": date.today() - timedelta(days=5)
+            },
+            {
+                "titulo": "Percy Jackson e o Mar de Monstros",
+                "autor": "Rick Riordan",
+                "ano": 2006,
+                "genero": "Aventura",
+                "isbn": "978-8580575244",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "O Senhor dos Anéis: A Sociedade do Anel",
+                "autor": "J.R.R. Tolkien",
+                "ano": 1954,
+                "genero": "Fantasia",
+                "isbn": "978-8533615653",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=8)
             },
             
             # Ciência e Não-ficção
@@ -173,6 +257,23 @@ def criar_dados_completos():
                 "genero": "Filosofia",
                 "isbn": "978-8535906770",
                 "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Cosmos",
+                "autor": "Carl Sagan",
+                "ano": 1980,
+                "genero": "Ciência",
+                "isbn": "978-8535925920",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Homo Deus: Uma Breve História do Amanhã",
+                "autor": "Yuval Noah Harari",
+                "ano": 2015,
+                "genero": "História",
+                "isbn": "978-8535926438",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=9)
             },
             
             # Literatura Contemporânea
@@ -216,6 +317,31 @@ def criar_dados_completos():
                 "ano": 1980,
                 "genero": "Mistério",
                 "isbn": "978-8501061935",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Veronika Decide Morrer",
+                "autor": "Paulo Coelho",
+                "ano": 1998,
+                "genero": "Ficção",
+                "isbn": "978-8573025385",
+                "status": StatusLivro.DISPONIVEL
+            },
+            {
+                "titulo": "Dona Flor e Seus Dois Maridos",
+                "autor": "Jorge Amado",
+                "ano": 1966,
+                "genero": "Romance",
+                "isbn": "978-8535918649",
+                "status": StatusLivro.EMPRESTADO,
+                "data_emprestimo": date.today() - timedelta(days=2)
+            },
+            {
+                "titulo": "Gabriela, Cravo e Canela",
+                "autor": "Jorge Amado",
+                "ano": 1958,
+                "genero": "Romance",
+                "isbn": "978-8535918656",
                 "status": StatusLivro.DISPONIVEL
             }
         ]
