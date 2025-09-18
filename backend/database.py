@@ -79,28 +79,24 @@ def criar_dados_exemplo(db: Session):
             "titulo": "O Pequeno Príncipe",
             "autor": "Antoine de Saint-Exupéry",
             "ano": 1943,
-            "genero": "ficcao",
+            "genero": "Ficção",
             "isbn": "978-8520925065",
-            "capa_url": "https://images-na.ssl-images-amazon.com/images/I/71OZY035QKL.jpg",
             "status": StatusLivro.DISPONIVEL
         },
         {
             "titulo": "Dom Casmurro",
             "autor": "Machado de Assis",
             "ano": 1899,
-            "genero": "romance",
+            "genero": "Romance",
             "isbn": "978-8525406569",
             "status": StatusLivro.EMPRESTADO,
-            "nome_usuario": "João Silva",
-            "turma_usuario": "3º A",
-            "data_emprestimo": date.today() - timedelta(days=10),
-            "data_devolucao_prevista": date.today() + timedelta(days=5)
+            "data_emprestimo": date.today() - timedelta(days=10)
         },
         {
             "titulo": "1984",
             "autor": "George Orwell",
             "ano": 1949,
-            "genero": "ficcao",
+            "genero": "Ficção Científica",
             "isbn": "978-8535914849",
             "status": StatusLivro.DISPONIVEL
         },
@@ -108,7 +104,7 @@ def criar_dados_exemplo(db: Session):
             "titulo": "O Cortiço",
             "autor": "Aluísio Azevedo",
             "ano": 1890,
-            "genero": "romance",
+            "genero": "Romance",
             "isbn": "978-8525406576",
             "status": StatusLivro.DISPONIVEL
         },
@@ -116,27 +112,24 @@ def criar_dados_exemplo(db: Session):
             "titulo": "A Revolução dos Bichos",
             "autor": "George Orwell",
             "ano": 1945,
-            "genero": "ficcao",
+            "genero": "Fábula",
             "isbn": "978-8535914856",
             "status": StatusLivro.EMPRESTADO,
-            "nome_usuario": "Maria Santos",
-            "turma_usuario": "2º B",
-            "data_emprestimo": date.today() - timedelta(days=20),
-            "data_devolucao_prevista": date.today() - timedelta(days=5)  # Em atraso
+            "data_emprestimo": date.today() - timedelta(days=20)
         },
         {
             "titulo": "Quincas Borba",
             "autor": "Machado de Assis",
             "ano": 1891,
-            "genero": "romance",
+            "genero": "Romance",
             "isbn": "978-8525406583",
-            "status": StatusLivro.MANUTENCAO
+            "status": StatusLivro.DISPONIVEL
         },
         {
             "titulo": "O Hobbit",
             "autor": "J.R.R. Tolkien",
             "ano": 1937,
-            "genero": "aventura",
+            "genero": "Aventura",
             "isbn": "978-8595084759",
             "status": StatusLivro.DISPONIVEL
         },
@@ -144,7 +137,7 @@ def criar_dados_exemplo(db: Session):
             "titulo": "Uma Breve História do Tempo",
             "autor": "Stephen Hawking",
             "ano": 1988,
-            "genero": "ciencia",
+            "genero": "Ciência",
             "isbn": "978-8580573466",
             "status": StatusLivro.DISPONIVEL
         },
@@ -152,7 +145,7 @@ def criar_dados_exemplo(db: Session):
             "titulo": "O Código Da Vinci",
             "autor": "Dan Brown",
             "ano": 2003,
-            "genero": "aventura",
+            "genero": "Aventura",
             "isbn": "978-8575421376",
             "status": StatusLivro.DISPONIVEL
         },
@@ -160,13 +153,49 @@ def criar_dados_exemplo(db: Session):
             "titulo": "Sapiens: Uma Breve História da Humanidade",
             "autor": "Yuval Noah Harari",
             "ano": 2011,
-            "genero": "nao-ficcao",
+            "genero": "História",
             "isbn": "978-8525432186",
             "status": StatusLivro.EMPRESTADO,
-            "nome_usuario": "Pedro Costa",
-            "turma_usuario": "1º C",
-            "data_emprestimo": date.today() - timedelta(days=5),
-            "data_devolucao_prevista": date.today() + timedelta(days=10)
+            "data_emprestimo": date.today() - timedelta(days=5)
+        },
+        {
+            "titulo": "O Alquimista",
+            "autor": "Paulo Coelho",
+            "ano": 1988,
+            "genero": "Ficção",
+            "status": StatusLivro.DISPONIVEL
+        },
+        {
+            "titulo": "Cem Anos de Solidão",
+            "autor": "Gabriel García Márquez",
+            "ano": 1967,
+            "genero": "Realismo Mágico",
+            "status": StatusLivro.DISPONIVEL
+        },
+        {
+            "titulo": "O Senhor dos Anéis: A Sociedade do Anel",
+            "autor": "J.R.R. Tolkien",
+            "ano": 1954,
+            "genero": "Fantasia",
+            "isbn": "978-8533615653",
+            "status": StatusLivro.EMPRESTADO,
+            "data_emprestimo": date.today() - timedelta(days=8)
+        },
+        {
+            "titulo": "Harry Potter e a Pedra Filosofal",
+            "autor": "J.K. Rowling",
+            "ano": 1997,
+            "genero": "Fantasia",
+            "isbn": "978-8532512062",
+            "status": StatusLivro.DISPONIVEL
+        },
+        {
+            "titulo": "O Nome da Rosa",
+            "autor": "Umberto Eco",
+            "ano": 1980,
+            "genero": "Mistério",
+            "isbn": "978-8501061638",
+            "status": StatusLivro.DISPONIVEL
         }
     ]
     
@@ -177,13 +206,8 @@ def criar_dados_exemplo(db: Session):
             ano=livro_data["ano"],
             genero=livro_data["genero"],
             isbn=livro_data.get("isbn"),
-            capa_url=livro_data.get("capa_url"),
             status=livro_data["status"],
-            nome_usuario=livro_data.get("nome_usuario"),
-            turma_usuario=livro_data.get("turma_usuario"),
-            data_emprestimo=livro_data.get("data_emprestimo"),
-            data_devolucao_prevista=livro_data.get("data_devolucao_prevista"),
-            data_cadastro=datetime.now()
+            data_emprestimo=livro_data.get("data_emprestimo")
         )
         db.add(livro)
     
@@ -252,7 +276,6 @@ def get_db_stats():
             "por_status": {
                 "disponivel": db.query(Livro).filter(Livro.status == StatusLivro.DISPONIVEL).count(),
                 "emprestado": db.query(Livro).filter(Livro.status == StatusLivro.EMPRESTADO).count(),
-                "manutencao": db.query(Livro).filter(Livro.status == StatusLivro.MANUTENCAO).count(),
             },
             "arquivo_db": {
                 "existe": os.path.exists("biblioteca.db"),
@@ -339,7 +362,6 @@ if __name__ == "__main__":
             print(f"   - Total de livros: {stats['total_livros']}")
             print(f"   - Disponíveis: {stats['por_status']['disponivel']}")
             print(f"   - Emprestados: {stats['por_status']['emprestado']}")
-            print(f"   - Em manutenção: {stats['por_status']['manutencao']}")
             print(f"   - Tamanho do arquivo: {stats['arquivo_db']['tamanho_mb']} MB")
     else:
         print("🔄 Inicializando banco de dados...")
